@@ -38,21 +38,37 @@ angular.module('metrikangular.dash', [])
             {callback: "JSON_CALLBACK"},
             { get: { method: 'JSONP'}});
 
-        Counters.get({}, function(response) {
-            ctrl.counters = response.counters;
+        ctrl.fnGetCountersList = function() {
+            ctrl.messages = [];
 
-            ctrl.counters.map(function(counter) {
-                $timeout(function() {
-                    Counter_info.get({id: counter.id}, function(response) {
-                        counter.traffic = response;
-                    }, function(error) {
-                        ctrl.messages.push({type: 'error', text: 'Непредвиденная ошибка :-(', response: error});
-
-                    })
-                },0, false)
+            Counters.get({}, function(response) {
+                ctrl.counters = $localStorage.counters = response.counters;
+                ctrl.fnGetCountersDetail();
+            }, function(error) {
+                ctrl.counters = $localStorage.counters = null;
+                ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, вероятно необходимо авторизоваться в Яндексе', callback: function() {}});
             });
-        }, function(error) {
-            ctrl.messages.push({type: 'error', text: 'Непредвиденная ошибка, вероятно необходимо авторизоваться в Яндексе', response: error});
-        });
+        };
+
+        ctrl.fnGetCountersDetail = function() {
+            var bError = false;
+            ctrl.counters.map(function(counter) {
+                Counter_info.get({id: counter.id}, function(response) {
+                    counter.traffic = response;
+                }, function(error) {
+                    if (!bError) {
+                        bError =true;
+                        ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, попробуйте авторизоваться в Яндексе и сбросить кеш', callback: function() {}});
+                    }
+                });
+            });
+        };
+
+        if (!$localStorage.counters) {
+            ctrl.fnGetCountersList();
+        } else {
+            ctrl.counters = $localStorage.counters;
+            ctrl.fnGetCountersDetail();
+        }
 
 }]);
