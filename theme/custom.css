@@ -10,6 +10,7 @@ body {
 
 #wrapper {
     width: 100%;
+    min-width: 520px;
 }
 
 #page-wrapper {
