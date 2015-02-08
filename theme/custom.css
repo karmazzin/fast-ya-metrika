@@ -467,3 +467,8 @@ body {
 .icons {
     margin-right: 30px;
 }
+
+.search {
+    margin: 20px;
+    width: 90%;
+}
