@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2,
+
+    "short_name": "Fast Ya.Metrika",
+    "name": "Fast Ya.Metrika",
+    "description": "",
+    "version": "1.0.3",
+    "icons": {
+        "128": "128.png"
+    },
+
+    "browser_action": {
+        "default_icon": "128.png",
+        "default_title": "Fast Ya.Metrika",
+        "default_popup": "popup.html"
+    },
+
+    "permissions": ["http://api-metrika.yandex.ru/"],
+    "content_security_policy": "script-src 'self' https://api-metrika.yandex.ru https://ssl.google-analytics.com; object-src 'self'"
+}

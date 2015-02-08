@@ -1,0 +1,26 @@
+{
+  "name": "metrikangular",
+  "version": "0.0.1",
+  "authors": [
+    "karmazin <karmazzin@ya.ru>"
+  ],
+  "description": "Chrome extension for Ya.metrika API",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "homepage": "karmazzin.ru",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-bootstrap": "~0.12.0",
+    "angular-ui-router": "~0.2.13",
+    "angular-resource": "~1.3.12"
+  }
+}

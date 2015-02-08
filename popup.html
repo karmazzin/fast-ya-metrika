@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html ng-app="metrikangular" ng-csp lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fast Ya.Metrika - Быстрая Я.метрика</title>
+    <link href="theme/bootstrap.min.css" rel="stylesheet">
+    <link href="theme/custom.css" rel="stylesheet">
+</head>
+<body>
+<div id="wrapper">
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-primary noborder">
+                    <div class="panel-heading gradient">
+                        Быстрая Я.метрика
+                        <span class="pull-right icons">
+                            <a class="push" target="_blank"  href="https://metrika.yandex.ru/" tooltip="Яндекс.Метрика" tooltip-popup-delay='300' tooltip-placement="bottom">
+                                <img src="/theme/img/metrika.ico" alt="Яндекс.Метрика"/>
+                            </a>
+                            <a class="push" target="_blank"  href="https://webmaster.yandex.ru/" tooltip="Яндекс.Вебмастер" tooltip-popup-delay='300' tooltip-placement="bottom">
+                                <img src="/theme/img/webmaster.ico" alt="Яндекс.Вебмастер"/>
+                            </a>
+                        </span>
+                    </div>
+                    <div ui-view></div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright pull-right">
+            <span class="small icons">Created by <a target="_blank" href="http://karmazzin.ru">Karmazzin</a></span><br>
+            <span class="small icons">Design and idea by team <a target="_blank" href="http://web-161.ru">WEB-161.RU</a></span>
+        </div>
+    </div>
+
+</div>
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="bower_components/ngstorage/ngStorage.min.js"></script>
+
+<script src="app.js"></script>
+<script src="modules/dash/dash.js"></script>
+<script src="services/jsonpInterceptor.js"></script>
+<script src="directives/messages.js"></script>
+<script src="filters/macros.js"></script>
+<script src="analytics.js"></script>
+</body>
+</html>
+

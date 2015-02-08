@@ -1,0 +1,41 @@
+<div class="panel-body">
+    <messages-alert messages="main.messages"></messages-alert>
+    <div class="table-responsive noborder" ng-if="main.counters">
+        <table class="table table-hover table-striped noborder">
+            <thead>
+            <tr>
+                <th>Сайт</th>
+                <th>Визиты</th>
+                <th>Просмотры</th>
+                <th>Посетители</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="counter in main.counters">
+                    <td class="">
+                        <a target="_blank" ng-href="https://metrika.yandex.ru/stat/dashboard/?counter_id={{counter.id}}">{{counter.name | cut:true:20:' ...'}}</a><br/>
+                        <a target="_blank" class="text-muted small" ng-href="http://{{counter.site}}">{{counter.site}}</a><br/>
+                        <!--<span class="small text-info" ng-if="counter.traffic.data[0].date">Данные от <br>{{counter.traffic.data[0].date | yandexDate}}</span>-->
+                    </td>
+                    <td colspan="3" ng-if="counter.traffic.errors">
+                        <span class="text-muted" ng-repeat="error in counter.traffic.errors">{{error.text}}</span>
+                    </td>
+                    <td ng-if="!counter.traffic.errors">
+                        <span>{{counter.traffic.data[0].visits}}</span>
+                        <span tooltip="Показатели предыдущего дня" tooltip-popup-delay='300' class="text-success small" ng-if="counter.traffic.data[1]">({{counter.traffic.data[1].visits}})</span>
+                    </td>
+                    <td ng-if="!counter.traffic.errors">
+                        <span>{{counter.traffic.data[0].page_views}}</span>
+                        <span tooltip="Показатели предыдущего дня" tooltip-popup-delay='300' class="text-success small" ng-if="counter.traffic.data[1]">({{counter.traffic.data[1].page_views}})</span>
+                    </td>
+                    <td ng-if="!counter.traffic.errors">
+                        <span>{{counter.traffic.data[0].visitors}}</span>
+                        <span tooltip="Показатели предыдущего дня" tooltip-popup-delay='300' class="text-success small" ng-if="counter.traffic.data[1]">({{counter.traffic.data[1].visitors}})</span>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
