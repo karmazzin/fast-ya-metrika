@@ -46,7 +46,7 @@ angular.module('metrikangular.dash', [])
                 ctrl.fnGetCountersDetail();
             }, function(error) {
                 ctrl.counters = $localStorage.counters = null;
-                ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, вероятно необходимо авторизоваться в Яндексе', callback: function() {}});
+                ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, попробуйте авторизоваться в Яндексе', callback: function() {}});
             });
         };
 
@@ -58,7 +58,7 @@ angular.module('metrikangular.dash', [])
                 }, function(error) {
                     if (!bError) {
                         bError =true;
-                        ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, попробуйте авторизоваться в Яндексе и сбросить кеш', callback: function() {}});
+                        ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, попробуйте сбросить кеш', callback: function() {}});
                     }
                 });
             });
