@@ -27,6 +27,8 @@ angular.module('metrikangular.dash', [])
         if (!$localStorage.firstOpen) {
             ctrl.messages.push({type: 'info', text: 'Привет, уважаемый! Понравилось расширение? Расскажи друзьям. Есть замечания или предложения - пиши отзыв в Webstore.', callback: function() {
                 $localStorage.firstOpen = true;
+                _gaq.push(['_trackEvent', 'Alert', 'Info', 'First open ' + new Date]);
+
             }});
         }
 
@@ -38,7 +40,9 @@ angular.module('metrikangular.dash', [])
             {callback: "JSON_CALLBACK"},
             { get: { method: 'JSONP'}});
 
-        ctrl.fnGetCountersList = function() {
+        ctrl.fnGetCountersList = function(a) {
+            if (a) _gaq.push(['_trackEvent', 'Action', 'Clear cache button']);
+
             ctrl.messages = [];
 
             Counters.get({}, function(response) {
@@ -50,14 +54,15 @@ angular.module('metrikangular.dash', [])
                         'ограничение на лимиты в количестве запросов. Если у вас возникнут проблемы с работой расширения,' +
                         'пожалуйста, дайте знать.', callback: function() {
                         $localStorage.manyAlert = true;
-
                     }});
+                    _gaq.push(['_trackEvent', 'Info', 'Many counters ' + ctrl.counters.length]);
                 }
 
                 ctrl.fnGetCountersDetail();
             }, function(error) {
                 ctrl.counters = $localStorage.counters = null;
                 ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, попробуйте авторизоваться в Яндексе', callback: function() {}});
+                _gaq.push(['_trackEvent', 'Error', 'Counters list error']);
             });
         };
 
@@ -71,7 +76,7 @@ angular.module('metrikangular.dash', [])
                         if (++i < ctrl.counters.length) loop(i);
                     }, function(error) {
                         ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, попробуйте сбросить кеш', callback: function() {}});
-
+                        _gaq.push(['_trackEvent', 'Error', 'Counters detail error']);
                     });
                 }, 0);
             }(0));
