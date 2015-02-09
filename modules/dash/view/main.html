@@ -27,7 +27,7 @@
                         <a target="_blank" class="text-muted small" ng-href="http://{{counter.site}}">{{counter.site  | cut:true:16:' ...'}}</a><br/>
                         <span class="small text-info" ng-if="counter.traffic.data[0].date">Обновлено в: {{counter.response_date | date:'HH:mm'}}</span>
                     </td>
-                    <td colspan="3" ng-if="counter.traffic.errors text-justify">
+                    <td colspan="3" ng-if="counter.traffic.errors">
                         <span class="text-muted" ng-repeat="error in counter.traffic.errors">{{error.text}}</span>
                     </td>
                     <td ng-if="!counter.traffic.errors">
