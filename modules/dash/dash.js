@@ -27,9 +27,12 @@ angular.module('metrikangular.dash', [])
         if (!$localStorage.firstOpen) {
             ctrl.messages.push({type: 'info', text: 'Привет, уважаемый! Понравилось расширение? Расскажи друзьям. Есть замечания или предложения - пиши отзыв в Webstore.', callback: function() {
                 $localStorage.firstOpen = true;
-                _gaq.push(['_trackEvent', 'Alert', 'Info', 'First open ' + new Date]);
-
             }});
+        }
+
+        if (!$localStorage.gaFirst) {
+            _gaq.push(['_trackEvent', 'Alert', 'Info', 'First open ' + new Date]);
+            $localStorage.gaFirst = true;
         }
 
         var Counters = $resource('https://api-metrika.yandex.ru/counters.json',
