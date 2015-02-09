@@ -68,7 +68,11 @@ angular.module('metrikangular.dash', [])
 
         ctrl.fnGetCountersDetail = function() {
             var response_date = new Date;
-            (function loop(i) {
+            $timeout(function() {
+                loop(0);
+            }, 500, false);
+
+            function loop(i) {
                 $timeout(function() {
                     Counter_info.get({id: ctrl.counters[i].id}, function(response) {
                         ctrl.counters[i].traffic = response;
@@ -79,7 +83,7 @@ angular.module('metrikangular.dash', [])
                         _gaq.push(['_trackEvent', 'Error', 'Counters detail error']);
                     });
                 }, 0);
-            }(0));
+            }
         };
 
         if (!$localStorage.counters || !$localStorage.counters.length) {
