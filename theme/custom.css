@@ -472,3 +472,13 @@ body {
     margin: 20px;
     width: 90%;
 }
+
+.one-line .form-group{
+    display: inline;
+}
+
+.one-line .form-group input{
+    display: inline;
+    width: 330px;
+
+}

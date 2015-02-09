@@ -1,10 +1,16 @@
 <div class="panel-body">
     <messages-alert messages="main.messages"></messages-alert>
+    <form class="one-line">
+        <div class="form-group">
+            <input type="text"
+                   class="form-control"
+                   placeholder="Поиск по названию или url"
+                   autofocus
+                   ng-model="searchText">
+        </div>
+        <button ng-click="main.fnGetCountersList(true)" class="btn btn-default pull-right">Сбросить кеш</button>
+    </form>
     <div class="table-responsive noborder" ng-if="main.counters">
-        <a href="" ng-click="main.fnGetCountersList(true)">Сбросить кеш</a>
-        <input type="search" class="form-control search" placeholder="Поиск по названию или url"
-               autofocus
-               ng-model="searchText">
         <table class="table table-hover table-striped noborder">
             <thead>
             <tr>
@@ -19,9 +25,9 @@
                     <td class="">
                         <a target="_blank" ng-href="https://metrika.yandex.ru/stat/dashboard/?counter_id={{counter.id}}">{{counter.name | cut:true:16:' ...'}}</a><br/>
                         <a target="_blank" class="text-muted small" ng-href="http://{{counter.site}}">{{counter.site  | cut:true:16:' ...'}}</a><br/>
-                        <span class="small text-info" ng-if="counter.traffic.data[0].date">{{counter.response_date | date:'dd.MM.yy HH:mm'}}</span>
+                        <span class="small text-info" ng-if="counter.traffic.data[0].date">Обновлено в: {{counter.response_date | date:'HH:mm'}}</span>
                     </td>
-                    <td colspan="3" ng-if="counter.traffic.errors">
+                    <td colspan="3" ng-if="counter.traffic.errors text-justify">
                         <span class="text-muted" ng-repeat="error in counter.traffic.errors">{{error.text}}</span>
                     </td>
                     <td ng-if="!counter.traffic.errors">
