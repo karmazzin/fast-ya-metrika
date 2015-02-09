@@ -18,7 +18,7 @@
                     <td class="">
                         <a target="_blank" ng-href="https://metrika.yandex.ru/stat/dashboard/?counter_id={{counter.id}}">{{counter.name | cut:true:16:' ...'}}</a><br/>
                         <a target="_blank" class="text-muted small" ng-href="http://{{counter.site}}">{{counter.site  | cut:true:16:' ...'}}</a><br/>
-                        <!--<span class="small text-info" ng-if="counter.traffic.data[0].date">Данные от <br>{{counter.traffic.data[0].date | yandexDate}}</span>-->
+                        <span class="small text-info" ng-if="counter.traffic.data[0].date">{{counter.response_date | date:'dd.MM.yy HH:mm'}}</span>
                     </td>
                     <td colspan="3" ng-if="counter.traffic.errors">
                         <span class="text-muted" ng-repeat="error in counter.traffic.errors">{{error.text}}</span>

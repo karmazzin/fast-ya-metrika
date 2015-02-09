@@ -43,6 +43,17 @@ angular.module('metrikangular.dash', [])
 
             Counters.get({}, function(response) {
                 ctrl.counters = $localStorage.counters = response.counters;
+                ctrl.counters.length = response.rows;
+
+                if (!$localStorage.manyAlert && ctrl.counters.length > 50) {
+                    ctrl.messages.push({type: 'info', text: 'У вас большое количество счетчиков, а API Я.Метрики имеет ' +
+                        'ограничение на лимиты в количестве запросов. Если у вас возникнут проблемы с работой расширения,' +
+                        'пожалуйста, дайте знать.', callback: function() {
+                        $localStorage.manyAlert = true;
+
+                    }});
+                }
+
                 ctrl.fnGetCountersDetail();
             }, function(error) {
                 ctrl.counters = $localStorage.counters = null;
@@ -51,20 +62,22 @@ angular.module('metrikangular.dash', [])
         };
 
         ctrl.fnGetCountersDetail = function() {
-            var bError = false;
-            ctrl.counters.map(function(counter) {
-                Counter_info.get({id: counter.id}, function(response) {
-                    counter.traffic = response;
-                }, function(error) {
-                    if (!bError) {
-                        bError =true;
+            var response_date = new Date;
+            (function loop(i) {
+                $timeout(function() {
+                    Counter_info.get({id: ctrl.counters[i].id}, function(response) {
+                        ctrl.counters[i].traffic = response;
+                        ctrl.counters[i].response_date = response_date;
+                        if (++i < ctrl.counters.length) loop(i);
+                    }, function(error) {
                         ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, попробуйте сбросить кеш', callback: function() {}});
-                    }
-                });
-            });
+
+                    });
+                }, 0);
+            }(0));
         };
 
-        if (!$localStorage.counters) {
+        if (!$localStorage.counters || !$localStorage.counters.length) {
             ctrl.fnGetCountersList();
         } else {
             ctrl.counters = $localStorage.counters;
