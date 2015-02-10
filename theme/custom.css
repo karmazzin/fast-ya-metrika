@@ -473,6 +473,10 @@ body {
     width: 90%;
 }
 
+.one-line {
+    margin: 15px;
+}
+
 .one-line .form-group{
     display: inline;
 }
