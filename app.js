@@ -4,12 +4,14 @@ app
 .config([
     '$httpProvider',
     '$urlRouterProvider',
-    function($httpProvider, $urlRouterProvider) {
+    '$akChromeProvider',
+    function($httpProvider, $urlRouterProvider, $akChromeProvider) {
         $httpProvider.interceptors.push('jsonpInterceptor');
         $urlRouterProvider.otherwise( function($injector) {
             var $state = $injector.get("$state");
             $state.go("main");
         });
+        $akChromeProvider.setBadgeColor({color:[0, 0, 0, 190]});
     }])
 
 .run([
@@ -30,5 +32,6 @@ app
         'metrikangular.dash',
         'jsonpFix',
         'messages',
-        'macros'
+        'macros',
+        'ak.chrome'
     ])));

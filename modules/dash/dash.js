@@ -20,7 +20,8 @@ angular.module('metrikangular.dash', [])
     '$localStorage',
     '$resource',
     '$timeout',
-    function($localStorage, $resource, $timeout) {
+    '$akChrome',
+    function($localStorage, $resource, $timeout, $akChrome) {
         var ctrl = this;
         ctrl.messages = [];
 
