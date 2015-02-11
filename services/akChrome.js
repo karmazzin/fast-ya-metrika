@@ -6,6 +6,7 @@
 
         this.setBadgeColor = chrome.browserAction.setBadgeBackgroundColor;
         this.setBadgeText = function(text) {
+            if (text == null) text = '';
             chrome.browserAction.setBadgeText({text: text + ''});
         };
 
