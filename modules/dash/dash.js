@@ -66,10 +66,7 @@ angular.module('metrikangular.dash', [])
 
         ctrl.fnGetCountersDetail = function(clear_cache) {
 
-            if (new Date($localStorage.ttl) < new Date() || clear_cache) {
-
-                $localStorage.response_date = ctrl.response_date = new Date;
-                $localStorage.ttl = new Date(ctrl.response_date.getTime() + 60000);//one minute
+            if (!$localStorage.ttl || new Date($localStorage.ttl) < new Date() || clear_cache) {
 
                 var i = 0;
                 var isError = false;
@@ -78,6 +75,8 @@ angular.module('metrikangular.dash', [])
                         loop(i);
                         i++;
                     } else {
+                        $localStorage.response_date = ctrl.response_date = new Date;
+                        $localStorage.ttl = new Date(ctrl.response_date.getTime() + 60000);//one minute
                         $interval.cancel(stop);
                     }
                 }, 20);
