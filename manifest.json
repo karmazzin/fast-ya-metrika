@@ -3,8 +3,8 @@
 
     "short_name": "Fast Ya.Metrika",
     "name": "Fast Ya.Metrika",
-    "description": "",
-    "version": "1.5.2",
+    "description": "Быстрый просмотр показаний Яндекс.Метрики",
+    "version": "1.5.3",
     "icons": {
         "128": "128.png"
     },
