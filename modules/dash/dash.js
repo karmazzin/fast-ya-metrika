@@ -65,7 +65,7 @@ angular.module('metrikangular.dash', [])
         };
 
         ctrl.fnGetCountersDetail = function(clear_cache) {
-
+            $akChrome.setBadgeText(ctrl.counters.length);
             if (!$localStorage.ttl || new Date($localStorage.ttl) < new Date() || clear_cache) {
 
                 var i = 0;
@@ -101,6 +101,7 @@ angular.module('metrikangular.dash', [])
             }
         };
 
+        $akChrome.setBadgeText('...');
         $timeout(function() {
             if (!$localStorage.counters || !$localStorage.counters.length) {
                 ctrl.fnGetCountersList();
