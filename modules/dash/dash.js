@@ -19,17 +19,12 @@ angular.module('metrikangular.dash', [])
 .controller('metrikangular.dash.main', [
     '$localStorage',
     '$resource',
+    '$interval',
     '$timeout',
     '$akChrome',
-    function($localStorage, $resource, $timeout, $akChrome) {
+    function($localStorage, $resource, $interval, $timeout, $akChrome) {
         var ctrl = this;
         ctrl.messages = [];
-
-        if (!$localStorage.firstOpen) {
-            ctrl.messages.push({type: 'info', text: 'Привет, уважаемый! Понравилось расширение? Расскажи друзьям. Есть замечания или предложения - пиши отзыв в Webstore.', callback: function() {
-                $localStorage.firstOpen = true;
-            }});
-        }
 
         if (!$localStorage.gaFirst) {
             _gaq.push(['_trackEvent', 'Alert', 'Info', 'First open ' + new Date]);
@@ -44,14 +39,13 @@ angular.module('metrikangular.dash', [])
             {callback: "JSON_CALLBACK"},
             { get: { method: 'JSONP'}});
 
-        ctrl.fnGetCountersList = function(a) {
-            if (a) _gaq.push(['_trackEvent', 'Action', 'Clear cache button']);
+        ctrl.fnGetCountersList = function(clear_cache) {
+            if (clear_cache) _gaq.push(['_trackEvent', 'Action', 'Clear cache button']);
 
             ctrl.messages = [];
 
             Counters.get({}, function(response) {
                 ctrl.counters = $localStorage.counters = response.counters;
-                ctrl.counters.length = response.rows;
 
                 if (!$localStorage.manyAlert && ctrl.counters.length > 50) {
                     ctrl.messages.push({type: 'info', text: 'У вас большое количество счетчиков, а API Я.Метрики имеет ' +
@@ -62,7 +56,7 @@ angular.module('metrikangular.dash', [])
                     _gaq.push(['_trackEvent', 'Info', 'Many counters ' + ctrl.counters.length]);
                 }
 
-                ctrl.fnGetCountersDetail();
+                ctrl.fnGetCountersDetail(clear_cache);
             }, function(error) {
                 ctrl.counters = $localStorage.counters = null;
                 ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, попробуйте авторизоваться в Яндексе', callback: function() {}});
@@ -70,31 +64,51 @@ angular.module('metrikangular.dash', [])
             });
         };
 
-        ctrl.fnGetCountersDetail = function() {
-            var response_date = new Date;
-            $timeout(function() {
-                loop(0);
-            }, 500, false);
+        ctrl.fnGetCountersDetail = function(clear_cache) {
+
+            if (new Date($localStorage.ttl) < new Date() || clear_cache) {
+
+                $localStorage.response_date = ctrl.response_date = new Date;
+                $localStorage.ttl = new Date(ctrl.response_date.getTime() + 60000);//one minute
+
+                var i = 0;
+                var isError = false;
+                var stop = $interval(function() {
+                    if (i < ctrl.counters.length) {
+                        loop(i);
+                        i++;
+                    } else {
+                        $interval.cancel(stop);
+                    }
+                }, 20);
+            } else {
+                ctrl.response_date = new Date($localStorage.response_date);
+            }
 
             function loop(i) {
-                $timeout(function() {
-                    Counter_info.get({id: ctrl.counters[i].id}, function(response) {
-                        ctrl.counters[i].traffic = response;
-                        ctrl.counters[i].response_date = response_date;
-                        if (++i < ctrl.counters.length) loop(i);
-                    }, function(error) {
+                Counter_info.get({id: ctrl.counters[i].id}, function(response) {
+                    ctrl.counters[i].traffic = response;
+
+                }, function(error) {
+                    if (!isError) {
+
+                        isError = true;
+                        $interval.cancel(stop);
+
                         ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, попробуйте сбросить кеш', callback: function() {}});
                         _gaq.push(['_trackEvent', 'Error', 'Counters detail error']);
-                    });
-                }, 0);
+                    }
+                });
             }
         };
 
-        if (!$localStorage.counters || !$localStorage.counters.length) {
-            ctrl.fnGetCountersList();
-        } else {
-            ctrl.counters = $localStorage.counters;
-            ctrl.fnGetCountersDetail();
-        }
+        $timeout(function() {
+            if (!$localStorage.counters || !$localStorage.counters.length) {
+                ctrl.fnGetCountersList();
+            } else {
+                ctrl.counters = $localStorage.counters;
+                ctrl.fnGetCountersDetail();
+            }
+        }, 100);
 
 }]);
