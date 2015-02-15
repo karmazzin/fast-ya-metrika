@@ -7,7 +7,7 @@ angular.module('metrikangular.dash', [])
             url: "/main",
             controllerAs: 'main',
             controller: "metrikangular.dash.main",
-            templateUrl: "src/modules/dash/view/main.html",
+            templateUrl: "theme/templates/dash/main.html",
             resolve: {
 
             },
