@@ -23,7 +23,7 @@ module.filter('cut', function () {
     return function(input) {
         if(input == null){ return ""; }
 
-        return  input.substr(6,2) + '.' + input.substr(4,2) + '.' + input.substr(0,4);
+        return  input.substr(6,2) + '.' + input.substr(4,2) + '.' + input.substr(2,2);
     };
 }]);
 

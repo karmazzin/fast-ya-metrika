@@ -10,6 +10,7 @@
         </div>
         <button ng-click="main.fnGetCountersList(true)" class="btn btn-default pull-right">Сбросить кеш</button>
     </form>
+    <span class="small text-info one-line">Обновлено в: {{ (main.response_date | date:'HH:mm') || 'нет данных'}}</span>
     <div class="table-responsive noborder" ng-if="main.counters">
         <table class="table table-hover table-striped noborder">
             <thead>
@@ -25,7 +26,7 @@
                     <td class="">
                         <a target="_blank" ng-href="https://metrika.yandex.ru/stat/dashboard/?counter_id={{counter.id}}">{{counter.name | cut:true:16:' ...'}}</a><br/>
                         <a target="_blank" class="text-muted small" ng-href="http://{{counter.site}}">{{counter.site  | cut:true:16:' ...'}}</a><br/>
-                        <span class="small text-info" ng-if="counter.traffic.data[0].date">Обновлено в: {{main.response_date | date:'HH:mm:ss'}}</span>
+                        <span class="small text-info" ng-if="counter.traffic.data[0].date">Данные от: {{counter.traffic.data[0].date | yandexDate}}</span>
                     </td>
                     <td colspan="3" ng-if="counter.traffic.errors">
                         <span class="text-muted" ng-repeat="error in counter.traffic.errors">{{error.text}}</span>
