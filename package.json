@@ -1,0 +1,33 @@
+{
+  "name": "fast-ya.metrika",
+  "version": "1.5.5",
+  "description": "Fast Ya.Metrika =============== ***Расширение предоставляет основную информацию от сервиса Яндекс Метрика в pop-up окне. Работает только когда у вас в метрике есть счетчики и вы авторизованы в Яндексе.***",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karmazzin/fast-ya-metrika.git"
+  },
+  "keywords": [
+    "Yandex",
+    "metrika"
+  ],
+  "author": "karmazzin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karmazzin/fast-ya-metrika/issues"
+  },
+  "homepage": "https://github.com/karmazzin/fast-ya-metrika",
+  "devDependencies": {
+    "gulp": "^3.8.1",
+    "gulp-bower": "0.0.10",
+    "gulp-concat": "^2.5.0",
+    "gulp-cssmin": "*",
+    "gulp-load-plugins": "^0.8.0",
+    "gulp-rigger": "*",
+    "gulp-sourcemaps": "*",
+    "gulp-uglify": "*",
+    "gulp-watch": "*",
+    "main-bower-files": "^2.5.0",
+    "rimraf": "*",
+    "run-sequence": "^1.0.2"
+  }
+}
