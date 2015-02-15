@@ -23,12 +23,12 @@
                     "    </button>\n" +
                     "    <div ng-bind=\"oMessage.text\"></div>\n" +
                     "</div>\n",
-                controller: function ($scope) {
+                controller: ['$scope', function ($scope) {
                     $scope.close = function($index) {
                         $scope.aMessages[$index].callback();
                         $scope.aMessages.splice($index, 1);
                     }
-                }
+                }]
             };
         }
     ]);

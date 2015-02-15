@@ -28,7 +28,6 @@ app
         'ngStorage',
         'ngResource',
         'ui.router',
-        'ui.bootstrap',
         'metrikangular.dash',
         'jsonpFix',
         'messages',

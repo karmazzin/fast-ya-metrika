@@ -33,15 +33,15 @@
                     </td>
                     <td ng-if="!counter.traffic.errors">
                         <span>{{counter.traffic.data[0].visits}}</span>
-                        <span tooltip="Показатели предыдущего дня" tooltip-popup-delay='300' class="text-success small" ng-if="counter.traffic.data[1]">({{counter.traffic.data[1].visits}})</span>
+                        <span class="text-success small" ng-if="counter.traffic.data[1]">({{counter.traffic.data[1].visits}})</span>
                     </td>
                     <td ng-if="!counter.traffic.errors">
                         <span>{{counter.traffic.data[0].page_views}}</span>
-                        <span tooltip="Показатели предыдущего дня" tooltip-popup-delay='300' class="text-success small" ng-if="counter.traffic.data[1]">({{counter.traffic.data[1].page_views}})</span>
+                        <span class="text-success small" ng-if="counter.traffic.data[1]">({{counter.traffic.data[1].page_views}})</span>
                     </td>
                     <td ng-if="!counter.traffic.errors">
                         <span>{{counter.traffic.data[0].visitors}}</span>
-                        <span tooltip="Показатели предыдущего дня" tooltip-popup-delay='300' class="text-success small" ng-if="counter.traffic.data[1]">({{counter.traffic.data[1].visitors}})</span>
+                        <span class="text-success small" ng-if="counter.traffic.data[1]">({{counter.traffic.data[1].visitors}})</span>
                     </td>
                 </tr>
 
