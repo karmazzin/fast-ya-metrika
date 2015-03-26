@@ -17,12 +17,13 @@ angular.module('metrikangular.dash', [])
         })
 }])
 .controller('metrikangular.dash.main', [
+    '$filter',
     '$localStorage',
     '$resource',
     '$interval',
     '$timeout',
     '$akChrome',
-    function($localStorage, $resource, $interval, $timeout, $akChrome) {
+    function($filter, $localStorage, $resource, $interval, $timeout, $akChrome) {
         var ctrl = this;
         ctrl.messages = [];
 
@@ -65,6 +66,9 @@ angular.module('metrikangular.dash', [])
         };
 
         ctrl.fnGetCountersDetail = function(clear_cache) {
+            var today = moment().format('YYYYMMDD');
+            var yesterday = moment().subtract(1, 'days').format('YYYYMMDD');
+
             $akChrome.setBadgeText(ctrl.counters.length);
             if (!$localStorage.ttl || new Date($localStorage.ttl) < new Date() || clear_cache) {
 
@@ -85,19 +89,32 @@ angular.module('metrikangular.dash', [])
             }
 
             function loop(i) {
-                Counter_info.get({id: ctrl.counters[i].id}, function(response) {
-                    ctrl.counters[i].traffic = response;
+                    Counter_info.get({
+                        id: ctrl.counters[i].id,
+                        date1: yesterday,
+                        date2: today
+                    }, function(response) {
 
-                }, function(error) {
-                    if (!isError) {
+                        response.data =$filter('orderBy')(response.data, 'date', true); //fix sorting
+                        ctrl.counters[i].traffic = response;
 
-                        isError = true;
-                        $interval.cancel(stop);
+                    }, function(error) {
 
-                        ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, попробуйте сбросить кеш', callback: function() {}});
-                        _gaq.push(['_trackEvent', 'Error', 'Counters detail error']);
-                    }
-                });
+                        if (error.status == '404') {
+                            ctrl.counters[i].traffic = {
+                                errors: [{
+                                    text: 'Нет данных за последние 2 дня'
+                                }]
+                            };
+                        } else if (!isError) {
+
+                            isError = true;
+                            $interval.cancel(stop);
+
+                            ctrl.messages.push({type: 'danger', text: 'Непредвиденная ошибка, попробуйте сбросить кеш', callback: function() {}});
+                            _gaq.push(['_trackEvent', 'Error', 'Counters detail error']);
+                        }
+                    });
             }
         };
 
